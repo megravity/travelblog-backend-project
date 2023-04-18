@@ -30,6 +30,9 @@ export const createComment = async (req, res) => {
       article.comments.push(comment);
       article.save();
       res.json({ success: true, data: comment });
+    } else {
+
+      res.status(500).json({success: false, data: "check failer"})
     }
   } catch (err) {
     if (err.status) {
