@@ -32,4 +32,6 @@ const articleSchema = new Schema({
 
 );
 
-export default model("Article", articleSchema);
+const ArticleCollection = model("Article", articleSchema);
+
+export default ArticleCollection;
