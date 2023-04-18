@@ -21,7 +21,7 @@ const userSchema = new Schema({
 
 });
 
-const UserCollection = model('user', userSchema);
+const UserCollection = model('User', userSchema);
 
 export default UserCollection;
 
