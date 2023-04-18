@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import articlesRoute from "./routes/articlesRoute.js";
+import expressOasGenerator from "express-oas-generator";
 
 dotenv.config();
 const PORT = process.env.PORT || 4000;
@@ -18,6 +19,8 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+expressOasGenerator.init(app, {});
 
 // routes
 app.use("/articles", articlesRoute);
