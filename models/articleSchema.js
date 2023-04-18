@@ -31,3 +31,5 @@ const articleSchema = new Schema({
 {timestamps: true},
 
 );
+
+export default model("Article", articleSchema);
