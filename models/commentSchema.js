@@ -12,8 +12,13 @@ const commentSchema = new Schema(
             ref: "User",
             required: true,
         },
-    },
-    { timestamps: true }
+    }
+
+  
+    
+,
+  {timestamps: true},
+
 );
 
 const CommentCollection = model("Comment", commentSchema);
