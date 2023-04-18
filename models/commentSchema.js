@@ -1,19 +1,16 @@
-const commentSchema = new Schema({
+const commentSchema = new Schema(
+    {
+        comment: {
+            type: String,
+            required: true,
+        },
 
-    comment: {
-        type: String,
-        required: true,
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: "User",
+        },
     },
-
-    author: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-    }
-
-    
-},
-  {timestamps: true},
-
+    { timestamps: true }
 );
 
 const CommentCollection = model("Comment", commentSchema);
