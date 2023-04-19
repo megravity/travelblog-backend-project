@@ -22,7 +22,9 @@ export const getAllArticles = async (req, res) => {
 export const getArticleById = async (req, res) => {
     try {
         const { id } = req.params;
-        const article = await ArticleCollection.findById(id);
+        const article = await ArticleCollection.findById(id).populate(
+            "comments"
+        );
         if (article) {
             res.json({ success: true, data: article });
         }
