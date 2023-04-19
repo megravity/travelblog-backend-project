@@ -70,7 +70,8 @@ export const updateArticleById = async (req, res) => {
         const { id } = req.params;
         const updatedArticle = await ArticleCollection.findByIdAndUpdate(
             id,
-            req.body
+            req.body,
+            { new: true }
         );
         if (updatedArticle) {
             res.json({
