@@ -20,6 +20,11 @@ const auth = async (req, res, next) => {
                     data: "unauthorized user",
                 });
             }
+        } else {
+            res.status(403).json({
+                success: false,
+                data: "unauthorized user",
+            });
         }
     } catch (error) {
         res.status(500).json({ success: false, data: error.message });
