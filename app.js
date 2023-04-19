@@ -10,20 +10,20 @@ dotenv.config();
 const PORT = process.env.PORT || 4000;
 const app = express();
 
-app.use(express.json())
+app.use(express.json());
 
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log("Successfully connected to DB 🦖");
-    app.listen(PORT, () => {
-      console.log(`Server is listening on http://localhost:${PORT} 🐶`);
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+        console.log("Successfully connected to DB 🦖");
+        app.listen(PORT, () => {
+            console.log(`Server is listening on http://localhost:${PORT} 🐶`);
+        });
+    })
+    .catch((err) => {
+        console.log(err);
     });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
 expressOasGenerator.init(app, {});
 

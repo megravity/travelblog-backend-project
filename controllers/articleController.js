@@ -5,6 +5,11 @@ export const getAllArticles = async (req, res) => {
         const articles = await ArticleCollection.find().populate("comments");
         if (articles) {
             res.json({ success: true, data: articles });
+        } else {
+            res.status(500).json({
+                success: false,
+                data: "Oops, something went wrong 😵‍💫",
+            });
         }
     } catch (err) {
         if (err.status) {
@@ -22,9 +27,16 @@ export const getAllArticles = async (req, res) => {
 export const getArticleById = async (req, res) => {
     try {
         const { id } = req.params;
-        const article = await ArticleCollection.findById(id);
+        const article = await ArticleCollection.findById(id).populate(
+            "comments"
+        );
         if (article) {
             res.json({ success: true, data: article });
+        } else {
+            res.status(500).json({
+                success: false,
+                data: "Oops, something went wrong 😵‍💫. The article couldn't be found...",
+            });
         }
     } catch (err) {
         if (err.status) {
@@ -49,6 +61,11 @@ export const createArticle = async (req, res) => {
         });
         if (article) {
             res.json({ success: true, data: article });
+        } else {
+            res.status(500).json({
+                success: false,
+                data: "Oops, something went wrong 😵‍💫",
+            });
         }
     } catch (err) {
         if (err.status) {
@@ -68,12 +85,18 @@ export const updateArticleById = async (req, res) => {
         const { id } = req.params;
         const updatedArticle = await ArticleCollection.findByIdAndUpdate(
             id,
-            req.body
+            req.body,
+            { new: true }
         );
         if (updatedArticle) {
             res.json({
                 success: true,
                 data: updatedArticle,
+            });
+        } else {
+            res.status(500).json({
+                success: false,
+                data: "Oops, something went wrong 😵‍💫. The article couldn't be found...",
             });
         }
     } catch (err) {
@@ -92,9 +115,14 @@ export const updateArticleById = async (req, res) => {
 export const deleteArticleById = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedArticle = ArticleCollection.findByIdAndRemove(id);
+        const deletedArticle = await ArticleCollection.findByIdAndRemove(id);
         if (deletedArticle) {
             res.json({ success: true, data: deletedArticle });
+        } else {
+            res.status(500).json({
+                success: false,
+                data: "Oops, something went wrong 😵‍💫. The article couldn't be found...",
+            });
         }
     } catch (err) {
         if (err.status) {
