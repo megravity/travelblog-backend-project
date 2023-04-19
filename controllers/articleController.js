@@ -94,7 +94,7 @@ export const updateArticleById = async (req, res) => {
 export const deleteArticleById = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedArticle = ArticleCollection.findByIdAndRemove(id);
+        const deletedArticle = await ArticleCollection.findByIdAndRemove(id);
         if (deletedArticle) {
             res.json({ success: true, data: deletedArticle });
         }
