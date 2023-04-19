@@ -3,8 +3,6 @@ import bcrypt from "bcrypt";
 
 export const signup = async (req, res) => {
     try {
-
-        console.log(req.body)
         const user = await UserCollection.create(req.body);
         bcrypt.hash(user.password, 10).then(async (hash) => {
             user.password = hash;

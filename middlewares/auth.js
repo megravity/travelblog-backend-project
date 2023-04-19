@@ -13,6 +13,7 @@ const auth = async (req, res, next) => {
             const verify = bcrypt.compareSync(password, user.password);
 
             if (verify) {
+                req.user = user;
                 next();
             } else {
                 res.status(403).json({

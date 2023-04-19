@@ -1,14 +1,14 @@
 import express from "express";
 import {
-  getAllComments,
-  getCommentsById,
-  createComment,
-  updateCommentById,
-  deleteCommentById,
-  
+    getAllComments,
+    getCommentsById,
+    createComment,
+    updateCommentById,
+    deleteCommentById,
 } from "../controllers/commentController.js";
 
 import auth from "../middlewares/auth.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 
 const router = express.Router();
 
@@ -22,9 +22,9 @@ router.get("/:id", getCommentsById);
 router.post("/:articleId", auth, createComment);
 
 //PATCH to update a single comment
-router.patch("/:id", updateCommentById);
+router.patch("/:id", auth, isAdmin, updateCommentById);
 
 //DELETE to delete a single comment
-router.delete("/:id",auth, deleteCommentById);
+router.delete("/:id", auth, isAdmin, deleteCommentById);
 
 export default router;

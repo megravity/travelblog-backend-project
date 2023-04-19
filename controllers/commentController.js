@@ -25,7 +25,6 @@ export const getCommentsById = async (req, res) => {
         const { id } = req.params;
         const comments = await CommentCollection.findById(id);
 
-        console.log(comments);
         if (comments) {
             res.json({ success: true, data: comments });
         }
@@ -91,7 +90,7 @@ export const updateCommentById = async (req, res) => {
 export const deleteCommentById = async (req, res) => {
     try {
         const { id } = req.params;
-        const removedComment = CommentCollection.findByIdAndRemove(id);
+        const removedComment = await CommentCollection.findByIdAndRemove(id);
         if (removedComment) {
             res.json({ success: true, data: removedComment });
         }
