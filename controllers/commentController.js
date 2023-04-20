@@ -44,12 +44,17 @@ export const getCommentsById = async (req, res) => {
 export const createComment = async (req, res) => {
     try {
         const { articleId } = req.params;
-        const comment = await CommentCollection.create(req.body);
-        if (comment) {
+        const { comment } = req.body;
+        const { _id } = req.user;
+        const createdComment = await CommentCollection.create({
+            comment,
+            user: _id,
+        });
+        if (createdComment) {
             const article = await ArticleCollection.findById(articleId);
-            article.comments.push(comment);
+            article.comments.push(createdComment);
             article.save();
-            res.json({ success: true, data: comment });
+            res.json({ success: true, data: createdComment });
         }
     } catch (err) {
         if (err.status) {

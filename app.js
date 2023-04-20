@@ -22,7 +22,7 @@ mongoose
         });
     })
     .catch((err) => {
-        console.log(err);
+        console.log("App.js", err);
     });
 
 expressOasGenerator.init(app, {});
