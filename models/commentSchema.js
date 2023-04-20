@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const commentSchema = new Schema(
     {
-        comment: {
+        content: {
             type: String,
             required: true,
         },
@@ -11,6 +11,13 @@ const commentSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User",
         },
+
+        comments: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: "Comment",
+            },
+        ]
     },
 
     { timestamps: true }
