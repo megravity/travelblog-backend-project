@@ -1,58 +1,29 @@
-// import jwt from 'jsonwebtoken';
-import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 import UserCollection from "../models/userSchema.js";
 
-const auth = async (req, res, next) => {
-    try {
-        const { email, password } = req.body;
+ const auth = async (req, res, next) => {
 
-        const user = await UserCollection.findOne({ email });
+    try{
+        const token = req.headers.token;
 
-        if (user) {
-            const verify = bcrypt.compareSync(password, user.password);
+        const payload = jwt.verify(token, process.env.SIGNATURE);
 
-            if (verify) {
-                req.user = user;
-                next();
-            } else {
-                res.status(403).json({
-                    success: false,
-                    data: "unauthorized user",
-                });
-            }
-        } else {
-            res.status(403).json({
-                success: false,
-                data: "unauthorized user",
-            });
+        const user = await UserCollection.findById(payload.id);
+
+        if(!user) {
+            return res.status(401).json({success: false, data: "unauthorized"});
         }
-    } catch (error) {
-        res.status(500).json({ success: false, data: error.message });
+
+        req.user = user;
+        next()
+
+    }catch (error) {
+
+        res.json({success: false, data: error.message})
     }
-};
+}
 
 export default auth;
 
-// import UserCollection from '../models/userSchema.js';
 
-// export const auth = async (req, res, next) => {
-
-//     try{
-//         const token = req.header.token;
-
-//         const payload = jwt.verify(token, process.env.SIGNATURE);
-
-//         const user = await UserCollection.findById(payload.id);
-
-//         if(!user) {
-//             return res.status(401).json({success: false, data: "unauthorized"});
-//         }
-
-//         req.user = user;
-
-//     }catch (error) {
-
-//         res.json({success: false, data: error.message})
-//     }
-// }
