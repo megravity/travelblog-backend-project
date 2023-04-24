@@ -21,7 +21,7 @@ const rules = [
 
         } else {
 
-            next(req);
+            next();
 
         }
             

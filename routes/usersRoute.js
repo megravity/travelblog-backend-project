@@ -1,15 +1,15 @@
 import express from "express";
 import { signup, login } from "../controllers/userController.js";
-// import { auth } from "../middlewares/auth.js";
+import  auth  from "../middlewares/auth.js";
 import rules from "../middlewares/validators.js";
 const router = express.Router();
 
 // /users
 
 //POST to add new user
-router.post("/", rules, signup);
+router.post("/",rules, signup);
 
-router.post("/login", login);
+router.post("/login", auth, login);
 //GET to get all users
 // router.get("/", getAllUsers);
 
