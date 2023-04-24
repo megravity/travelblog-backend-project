@@ -5,9 +5,9 @@ export const isAdmin = async (req, res, next) => {
         next();
     }
 
-    if (req.baseUrl === "/articles") {
-        res.status(403).json({ success: false, data: "Not authorized" });
-    }
+    // if (req.baseUrl === "/articles") {
+    //     res.status(403).json({ success: false, data: "Not authorized" });
+    // }
 
     const { id } = req.params;
     try {
