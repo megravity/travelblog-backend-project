@@ -5,6 +5,7 @@ import {
     createComment,
     updateCommentById,
     deleteCommentById,
+    addReplyComment,
 } from "../controllers/commentController.js";
 
 import auth from "../middlewares/auth.js";
@@ -20,6 +21,9 @@ router.get("/:id", getCommentsById);
 
 //POST to add new comment
 router.post("/:articleId", auth, createComment);
+
+//POST to reply to comment
+router.post("/reply/:commentId", auth, addReplyComment);
 
 //PATCH to update a single comment
 router.patch("/:id", auth, isAdmin, updateCommentById);

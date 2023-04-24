@@ -44,12 +44,17 @@ export const getCommentsById = async (req, res) => {
 export const createComment = async (req, res) => {
     try {
         const { articleId } = req.params;
-        const comment = await CommentCollection.create(req.body);
-        if (comment) {
+        const { content } = req.body;
+        const { _id } = req.user;
+        const createdComment = await CommentCollection.create({
+            content,
+            user: _id,
+        });
+        if (createdComment) {
             const article = await ArticleCollection.findById(articleId);
-            article.comments.push(comment);
+            article.comments.push(createdComment);
             article.save();
-            res.json({ success: true, data: comment });
+            res.json({ success: true, data: createdComment });
         }
     } catch (err) {
         if (err.status) {
@@ -63,6 +68,40 @@ export const createComment = async (req, res) => {
         });
     }
 };
+
+export const addReplyComment = async (req, res) => {
+    try {
+        const { commentId } = req.params;
+        const { content, comments } = req.body;
+        const { _id } = req.user;
+        const createdComment = await CommentCollection.create({
+            content,
+            comments,
+            user: _id,
+        });
+
+        if (createdComment) {
+            const comment = await CommentCollection.findById(commentId);
+            if(comment.comments) {
+                comment.comments.push(createdComment);
+            } else {
+                comment.comments = [createdComment];
+            }
+            comment.save();
+            res.json({ success: true, data: comment });
+        }
+    } catch (err) {
+        if (err.status) {
+            res.status(err.status);
+        } else {
+            res.status(500);
+        }
+        res.json({
+            success: false,
+            message: err.message,
+        });
+    }
+}
 
 export const updateCommentById = async (req, res) => {
     try {
